@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { supabase } from "./supabaseClient";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "https://marketpulse-jnc3.onrender.com";
 
 const availableStocks = [
   { symbol: "RELIANCE", name: "Reliance Industries" },
