@@ -207,14 +207,75 @@ app.get("/api/market/:symbol", async (req, res) => {
         "Time Series (Daily)"
       ];
 
-    if (!timeSeries) {
-      return res.status(404).json({
-        success: false,
-        message:
-          `No market data available for ${symbol}.`,
-      });
+   if (!timeSeries) {
+  const fallbackStocks = {
+    RELIANCE: {
+      price: 1322,
+      previousClose: 1305,
+      changePercent: 1.3,
+      volume: 459976
+    },
+    TCS: {
+      price: 4125,
+      previousClose: 4090,
+      changePercent: 0.86,
+      volume: 180000
+    },
+    INFY: {
+      price: 1880,
+      previousClose: 1865,
+      changePercent: 0.8,
+      volume: 220000
+    },
+    HDFCBANK: {
+      price: 1715,
+      previousClose: 1698,
+      changePercent: 1.0,
+      volume: 250000
+    },
+    ICICIBANK: {
+      price: 1450,
+      previousClose: 1438,
+      changePercent: 0.83,
+      volume: 240000
+    },
+    SBIN: {
+      price: 820,
+      previousClose: 812,
+      changePercent: 0.99,
+      volume: 300000
+    },
+    ITC: {
+      price: 410,
+      previousClose: 406,
+      changePercent: 0.99,
+      volume: 350000
     }
+  };
 
+  const fallback = fallbackStocks[symbol];
+
+  if (fallback) {
+    return res.json({
+      success: true,
+      symbol,
+      ...fallback,
+      source: "Demo fallback data",
+      demo: true
+    });
+  }
+
+  return res.json({
+    success: true,
+    symbol,
+    price: 1000,
+    previousClose: 990,
+    changePercent: 1.01,
+    volume: 100000,
+    source: "Demo fallback data",
+    demo: true
+  });
+}
     // --------------------------------------
     // Get latest and previous trading day
     // --------------------------------------
